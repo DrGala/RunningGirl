@@ -1,4 +1,5 @@
 import pygame
+from scrolling_background import *
 from obstacle import *
 
 
@@ -7,10 +8,9 @@ screen = pygame.display.set_mode((800,600))
 
 clock = pygame.time.Clock()
 
-SCROLL_SPEED_SLOW = 1
-SCROLL_SPEED_NORMAL = 3
+scrolling_speed = ScrollingSpeed(3)
 
-crate = Obstacle('img\\Object\\Crate.png', 0.5, 3)
+crate = Obstacle('img\\Object\\Crate.png', 0.5, scrolling_speed)
 obstacles_group = pygame.sprite.Group( [ crate ] )
 
 done = False

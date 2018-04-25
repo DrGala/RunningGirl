@@ -41,8 +41,15 @@ while not done:
     # events
     events = pygame.event.get()
     for event in events:
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            done = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                done = True
+            else:
+                # restart non looping animations
+                jump_animation.start()
+                slide_animation.start()
+                dead_animation.start()
+    
 
     # update
     idle_animation.update(ms)

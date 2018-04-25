@@ -11,6 +11,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, (250,250,250), self.rect)
         self.rect.center = self.position
         self.animations = {}
+        self.next_animation = None
         self.current_image_idx = -1
         self.radius = 30
 
@@ -19,8 +20,15 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     def set_animation(self, name):
         self.current_animation = self.animations[name]
-        self.current_animation.start()
+        if self.current_animation is not None:
+            self.current_animation.start()
 
+    def set_next_animation(self, name):
+        if name == '':
+            self.next_animation = None
+        else:
+            self.next_animation = self.animations[name]
+        
     def update(self, ms):
         if self.current_animation is None:
             return
@@ -28,7 +36,10 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.current_animation.update(ms)
 
         if self.current_animation.is_over:
-            self.current_animation = self.animations[self.current_animation.next_animation]
+            self.current_animation = self.next_animation
+
+        if self.current_animation is None:
+            return
         
         idx = self.current_animation.get_image_idx()
         if idx != self.current_image_idx:

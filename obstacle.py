@@ -1,5 +1,6 @@
 import pygame
 
+
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, image_path, scale_factor, scroll_speed):
         pygame.sprite.Sprite.__init__(self)
@@ -14,7 +15,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.radius = 20
             
     def update(self, ms):
-        self.rect.move_ip(-self.scroll_speed, 0)
+        self.rect.move_ip(-self.scroll_speed.get_speed(), 0)
         if self.rect.center[0] < -50:
             self.rect.move_ip(900, 0)
 

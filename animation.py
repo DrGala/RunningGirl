@@ -7,7 +7,7 @@ class Animation:
         self.images = []
         self.positions = []
         self.is_over = False
-        self.next_animation = ''
+        self.looping = False
         for i in range(first, last):
             real_path = path_with_star.replace('*', str(i))
             self.images.append( self.load_and_scale(real_path, scale))
@@ -22,7 +22,7 @@ class Animation:
     def update(self, delta):
         self.time += delta
         if self.time >= self.duration:
-            if self.next_animation == '':
+            if self.looping:
                 self.time -= self.duration
             else:
                 self.is_over = True
@@ -35,11 +35,8 @@ class Animation:
     def get_image(self, idx):
         return self.images[idx]
 
-    def next_animation(self):
-        return self.next_animation
-
-    def set_next_animation(self, name):
-        self.next_animation = name
+    def set_looping(self, looping):
+        self.looping = looping
 
     def start(self):
         self.is_over = False

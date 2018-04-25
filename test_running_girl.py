@@ -29,6 +29,9 @@ while not done:
         if event.type == pygame.KEYUP:
             girl.keyup(event.key)
 
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
+            girl.die()
+
     # update
     girl_group.update(ms)
 

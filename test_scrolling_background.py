@@ -7,12 +7,13 @@ screen = pygame.display.set_mode((800,600))
 
 clock = pygame.time.Clock()
 
-SCROLL_SPEED_SLOW = 1
-SCROLL_SPEED_NORMAL = 3
+scrolling_speed = ScrollingSpeed(3)
 
-bg1 = ScrollingBackground('.\\img\\backgrounds\\back.png', SCROLL_SPEED_SLOW)
-bg2 = ScrollingBackground('.\\img\\backgrounds\\ground.png', SCROLL_SPEED_NORMAL)
+bg1 = ScrollingBackgroundSlow('.\\img\\backgrounds\\back.png', scrolling_speed)
+bg2 = ScrollingBackground('.\\img\\backgrounds\\ground.png', scrolling_speed)
 
+
+speed = 3
 
 done = False
 ms = 0
@@ -30,6 +31,18 @@ while not done:
     for event in events:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             done = True
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+            speed -= 1
+            scrolling_speed.set_speed(speed)
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+            speed += 1
+            scrolling_speed.set_speed(speed)
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            speed = 0
+            scrolling_speed.set_speed(speed)
 
     # update
     bg1.update(ms)
