@@ -1,4 +1,5 @@
 from animated_sprite import *
+from running_girl_animations import *
 
 class RunningGirl(AnimatedSprite):
     def __init__(self):
@@ -6,15 +7,15 @@ class RunningGirl(AnimatedSprite):
         self.add_animations()
 
     def add_animations(self):
-        self.idle_animation = Animation('.\\img\\adventure_girl\\Idle (*).png', 1, 11, 4, 1000)
-        self.run_animation = Animation('.\\img\\adventure_girl\\Run (*).png', 1, 9, 4, 600)
-        self.jump_animation = Animation('.\\img\\adventure_girl\\Jump (*).png', 1, 11, 4, 1000)
-        self.jump_animation.set_delta_positions( [ (0,-20), (0,-40), (0,-60), (0,-80), (0,-90),
-                                              (0,-90), (0,-80), (0,-60), (0,-40), (0,-20) ])
-
+        self.idle_animation = Animation_Idle()
+        self.run_animation = Animation_Run()
+        self.jump_animation = Animation_Jump()
+        self.slide_animation = Animation_Slide()
+        
         self.add_animation('idle', self.idle_animation)
         self.add_animation('run',  self.run_animation)
         self.add_animation('jump', self.jump_animation)
+        self.add_animation('slide', self.slide_animation)
 
         self.set_animation('idle')
 
@@ -34,10 +35,17 @@ class RunningGirl(AnimatedSprite):
                     self.jump_animation.set_next_animation('idle')
                 self.set_animation('jump')
 
+        if key == pygame.K_s:
+            if self.current_animation == self.run_animation:
+                self.slide_animation.set_next_animation('run')
+                self.set_animation('slide')
+
     def keyup(self, key):
         if key == pygame.K_r:
             if self.current_animation == self.run_animation:
                 self.set_animation('idle')
             elif self.current_animation == self.jump_animation:
                 self.jump_animation.set_next_animation('idle')
+            elif self.current_animation == self.slide_animation:
+                self.slide_animation.set_next_animation('idle')
                 

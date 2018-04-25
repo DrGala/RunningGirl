@@ -1,5 +1,5 @@
 import pygame
-from animation import *
+from running_girl_animations import *
 
 
 pygame.init()
@@ -7,12 +7,11 @@ screen = pygame.display.set_mode((800,600))
 
 clock = pygame.time.Clock()
 
-idle_animation = Animation('.\\img\\adventure_girl\\Idle (*).png', 1, 11, 4, 1000)
-run_animation = Animation('.\\img\\adventure_girl\\Run (*).png', 1, 9, 4, 600)
-jump_animation = Animation('.\\img\\adventure_girl\\Jump (*).png', 1, 11, 4, 1000)
-jump_animation.set_delta_positions( [ (0,-20), (0,-40), (0,-60), (0,-80), (0,-90),
-                                      (0,-90), (0,-80), (0,-60), (0,-40), (0,-20) ])
-
+idle_animation = Animation_Idle()
+run_animation = Animation_Run()
+jump_animation = Animation_Jump()
+slide_animation = Animation_Slide()
+dead_animation = Animation_Dead()
 
 
 def show_animation(animation, pos):
@@ -33,6 +32,8 @@ while not done:
     show_animation(idle_animation, (100,100))
     show_animation(run_animation,  (200,100))
     show_animation(jump_animation, (300,100))
+    show_animation(slide_animation, (450,100))
+    show_animation(dead_animation, (100,300))
     
     pygame.display.flip()
     ms = clock.tick(80)
@@ -47,5 +48,7 @@ while not done:
     idle_animation.update(ms)
     run_animation.update(ms)
     jump_animation.update(ms)
+    slide_animation.update(ms)
+    dead_animation.update(ms)
     
 pygame.quit()
