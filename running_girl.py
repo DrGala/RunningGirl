@@ -66,7 +66,7 @@ class RunningGirl_AlwaysRunning(RunningGirl):
     def keydown(self, key):
                
         if key == pygame.K_UP:
-            if self.current_animation != self.jump_animation:
+            if self.current_animation == self.run_animation:
                 self.set_animation('jump')
 
         if key == pygame.K_DOWN:

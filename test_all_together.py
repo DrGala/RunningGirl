@@ -23,8 +23,12 @@ girl = RunningGirl_AlwaysRunning()
 girl_group = pygame.sprite.GroupSingle( girl )
 
 crate = Obstacle('img\\Object\\Crate.png', 0.5, scrolling_speed)
-crate.rect.move_ip(0, 10)
-obstacles_group = pygame.sprite.Group( [ crate ] )
+crate.rect.move_ip(100, 10)
+
+mushroom = Obstacle('img\\Object\\Mushroom_1.png', 1, scrolling_speed)
+mushroom.rect.move_ip(400, -60)
+
+obstacles_group = pygame.sprite.Group( [ crate, mushroom ] )
 
 done = False
 ms = 0
@@ -40,12 +44,22 @@ while not done:
     # debug drawing for collisions
     debug_draw_collision_circle(screen, girl)
     debug_draw_collision_circle(screen, crate)
-
+    debug_draw_collision_circle(screen, mushroom)
+    
     # events
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             done = True
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            girl.set_animation("run")
+            scrolling_speed.set_speed(3)
+
+            for obstacle in obstacles_group:
+                obstacle.rect.move_ip(-50,0)
+
+            
         if event.type == pygame.KEYDOWN:
             girl.keydown(event.key)
         if event.type == pygame.KEYUP:

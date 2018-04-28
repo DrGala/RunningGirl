@@ -1,6 +1,9 @@
 import pygame
 from running_girl import *
 
+def debug_draw_collision_circle(screen, a_sprite):
+    pygame.draw.circle(screen, (0, 0, 255), a_sprite.rect.center, a_sprite.radius, 1)
+
 
 pygame.init()
 screen = pygame.display.set_mode((800,600))
@@ -17,6 +20,7 @@ while not done:
     # render
     screen.fill( (0, 120, 10) )
     girl_group.draw(screen)
+    debug_draw_collision_circle(screen, girl)
 
     # events
     events = pygame.event.get()

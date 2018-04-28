@@ -19,8 +19,9 @@ class Animation_Jump(Animation):
 class Animation_Slide(Animation):
     def __init__(self):
         Animation.__init__(self, '.\\img\\adventure_girl\\Slide (*).png', 1, 6, 4, 1000)
-        self.set_delta_positions( [ (3,-5), (6,0), (6,5),
-                                    (9,5), (9,0), (9,5) ])
+        self.set_delta_positions( [ (3,25), (6,30), (9,35),
+                                    (12,35), (12,35), (9,35) ])
+        self.scroll_images(30,-30)
 
 class Animation_Dead(Animation):
     def __init__(self):

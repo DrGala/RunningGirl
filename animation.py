@@ -12,7 +12,24 @@ class Animation:
             real_path = path_with_star.replace('*', str(i))
             self.images.append( self.load_and_scale(real_path, scale))
             self.positions.append( (0,0) )
-            
+
+    def scroll_images(self, dx, dy):
+        for img in self.images:
+            img.scroll(dx,dy)
+            alpha = img.get_alpha()
+            if dx != 0:
+                if dx > 0:
+                    alpha_rect = pygame.Rect(0, 0, dx, img.get_rect().height)
+                else:
+                    alpha_rect = pygame.Rect(img.get_rect().width + dx, 0, -dx, img.get_rect().height)
+                pygame.draw.rect(img, alpha, alpha_rect)
+            if dy != 0:
+                if dy > 0:
+                    alpha_rect = pygame.Rect(0, 0, img.get_rect().width, dy)
+                else:
+                    alpha_rect = pygame.Rect(0, img.get_rect().height + dy, img.get_rect().width, -dy)
+                pygame.draw.rect(img, alpha, alpha_rect)
+                    
     def load_and_scale(self, path, scale):
         image = pygame.image.load(path).convert_alpha()
         rect = image.get_rect()
