@@ -58,10 +58,11 @@ class RunningGirl(AnimatedSprite):
 
 
 class RunningGirl_AlwaysRunning(RunningGirl):
-    def __init__(self):
+    def __init__(self, scrolling_speed):
         RunningGirl.__init__(self)
         self.set_animation('run')
         self.set_next_animation('run')
+        self.scrolling_speed = scrolling_speed
 
     def keydown(self, key):
                
@@ -73,6 +74,14 @@ class RunningGirl_AlwaysRunning(RunningGirl):
             if self.current_animation == self.run_animation:
                 self.set_animation('slide')
 
+        if key == pygame.K_RIGHT:
+            if self.current_animation == self.run_animation:
+                self.scrolling_speed.set_speed(4)
+
+        if key == pygame.K_LEFT:
+            if self.current_animation == self.run_animation:
+                self.scrolling_speed.set_speed(3)
+                
     def keyup(self, key):
         pass
 

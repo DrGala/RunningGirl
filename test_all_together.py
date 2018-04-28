@@ -19,7 +19,7 @@ scrolling_speed = ScrollingSpeed(3)
 bg1 = ScrollingBackgroundSlow('.\\img\\backgrounds\\back.png', scrolling_speed)
 bg2 = ScrollingBackground('.\\img\\backgrounds\\ground.png', scrolling_speed)
 
-girl = RunningGirl_AlwaysRunning()
+girl = RunningGirl_AlwaysRunning(scrolling_speed)
 girl_group = pygame.sprite.GroupSingle( girl )
 
 crate = Obstacle('img\\Object\\Crate.png', 0.5, scrolling_speed)
@@ -54,6 +54,7 @@ while not done:
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             girl.set_animation("run")
+            girl.set_next_animation("run")
             scrolling_speed.set_speed(3)
 
             for obstacle in obstacles_group:
