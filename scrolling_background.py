@@ -52,3 +52,18 @@ class ScrollingBackgroundSlow():
 
     def update(self,ms):
         self.x -= self.scroll_speed.get_slow_speed()
+
+
+class DoubleLayerBackground():
+    def __init__(self, img_back, img_front, scrolling_speed):
+        self.bg1 = ScrollingBackgroundSlow(img_back, scrolling_speed)
+        self.bg2 = ScrollingBackground(img_front, scrolling_speed)
+
+    def draw(self, surface):
+        self.bg1.draw(surface)
+        self.bg2.draw(surface)
+
+    def update(self,ms):
+        self.bg1.update(ms)
+        self.bg2.update(ms)
+

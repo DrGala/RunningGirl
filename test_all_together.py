@@ -2,6 +2,8 @@ import pygame
 from scrolling_background import *
 from running_girl import *
 from obstacle import *
+import random
+
 
 
 
@@ -14,37 +16,44 @@ screen = pygame.display.set_mode((800,600))
 
 clock = pygame.time.Clock()
 
+
+CREATE_OBSTACLE_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(CREATE_OBSTACLE_EVENT, 2000)
+
+def create_obstacle(obstacles_group, scrolling_speed):
+    n = random.randrange(1,4)
+    if n==1:
+        obstacles_group.add( Crate(scrolling_speed) )
+    elif n==2:
+        obstacles_group.add( FlyingMushroom(scrolling_speed) )
+    else:
+        obstacles_group.add( FallingCrate(scrolling_speed) )
+        
 scrolling_speed = ScrollingSpeed(3)
 
-bg1 = ScrollingBackgroundSlow('.\\img\\backgrounds\\back.png', scrolling_speed)
-bg2 = ScrollingBackground('.\\img\\backgrounds\\ground.png', scrolling_speed)
+bg = DoubleLayerBackground('.\\img\\backgrounds\\back.png', '.\\img\\backgrounds\\ground.png', scrolling_speed)
 
 girl = RunningGirl_AlwaysRunning(scrolling_speed)
 girl_group = pygame.sprite.GroupSingle( girl )
 
-crate = Obstacle('img\\Object\\Crate.png', 0.5, scrolling_speed)
-crate.rect.move_ip(100, 10)
+obstacles_group = pygame.sprite.Group()
 
-mushroom = Obstacle('img\\Object\\Mushroom_1.png', 1, scrolling_speed)
-mushroom.rect.move_ip(400, -60)
-
-obstacles_group = pygame.sprite.Group( [ crate, mushroom ] )
 
 done = False
 ms = 0
 while not done:
 
     # render
-    bg1.draw(screen)
-    bg2.draw(screen)
-
+    bg.draw(screen)
+    
     obstacles_group.draw(screen)
     girl_group.draw(screen)
 
     # debug drawing for collisions
     debug_draw_collision_circle(screen, girl)
-    debug_draw_collision_circle(screen, crate)
-    debug_draw_collision_circle(screen, mushroom)
+    for obstacle in obstacles_group:
+        debug_draw_collision_circle(screen, obstacle)
+    
     
     # events
     events = pygame.event.get()
@@ -59,12 +68,14 @@ while not done:
 
             for obstacle in obstacles_group:
                 obstacle.rect.move_ip(-50,0)
-
             
         if event.type == pygame.KEYDOWN:
             girl.keydown(event.key)
         if event.type == pygame.KEYUP:
             girl.keyup(event.key)
+
+        if event.type == CREATE_OBSTACLE_EVENT:
+            create_obstacle(obstacles_group, scrolling_speed)        
 
     # collisions
     if girl.current_animation is not None and girl.current_animation != girl.dead_animation:
@@ -74,8 +85,8 @@ while not done:
             scrolling_speed.set_speed(0)
 
     # update
-    bg1.update(ms)
-    bg2.update(ms)
+    bg.update(ms)
+    
     obstacles_group.update(ms)
     girl_group.update(ms)
 
