@@ -10,8 +10,8 @@ clock = pygame.time.Clock()
 
 scrolling_speed = ScrollingSpeed(3)
 
-crate = Obstacle('img\\Object\\Crate.png', 0.5, scrolling_speed)
-obstacles_group = pygame.sprite.Group( [ crate ] )
+obstacle = PoisonCloudMushroom(scrolling_speed)
+obstacles_group = pygame.sprite.Group( [ obstacle ] )
 
 done = False
 ms = 0

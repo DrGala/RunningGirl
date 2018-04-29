@@ -4,16 +4,19 @@ import pygame
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, image_path, scale_factor, scroll_speed):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(image_path).convert_alpha()
-        self.rect = self.image.get_rect()
         self.scroll_speed = scroll_speed
-        
-        self.image = pygame.transform.smoothscale(self.image, (int(self.rect.width * scale_factor), int(self.rect.height * scale_factor)))
-        self.rect = self.image.get_rect()
+
+        self.load_image(image_path, scale_factor)
         
         self.rect.center = (800, 450)
         self.radius = 20
-            
+
+    def load_image(self, image_path, scale_factor):
+        self.image = pygame.image.load(image_path).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.image = pygame.transform.smoothscale(self.image, (int(self.rect.width * scale_factor), int(self.rect.height * scale_factor)))
+        self.rect = self.image.get_rect()
+        
     def update(self, ms):
         self.rect.move_ip(-self.scroll_speed.get_speed(), 0)
         if self.rect.center[0] < -50:
@@ -45,3 +48,25 @@ class FallingCrate(Obstacle):
         if self.rect.center[1] > 460:
             self.rect.center = (self.rect.center[0], 460)
             self.y_speed = 0    
+
+class PoisonCloudMushroom(Obstacle):
+    def __init__(self, scrolling_speed):
+        Obstacle.__init__(self, 'img\\Object\\Mushroom_2.png', 1, scrolling_speed)
+        self.is_a_mushroom = True
+
+    def update(self, ms):
+        Obstacle.update(self, ms)
+
+        if self.is_a_mushroom:   
+            if self.rect.center[0] < 400:
+                # turns into a posion cloud!
+                current_rect = pygame.Rect(self.rect)
+                self.load_image('img\\Object\\poison_cloud.png', 0.5)
+                self.rect.center = current_rect.center
+                self.is_a_mushroom = False
+        else:
+            if self.rect.center[1] > 300:
+                self.rect.move_ip(0,-1)
+            
+            
+                
