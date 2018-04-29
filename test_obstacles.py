@@ -10,8 +10,10 @@ clock = pygame.time.Clock()
 
 scrolling_speed = ScrollingSpeed(3)
 
-obstacle = PoisonCloudMushroom(scrolling_speed)
-obstacles_group = pygame.sprite.Group( [ obstacle ] )
+obstacles_group = pygame.sprite.Group()
+
+CREATE_OBSTACLE_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(CREATE_OBSTACLE_EVENT, 2000)
 
 done = False
 ms = 0
@@ -29,6 +31,9 @@ while not done:
     for event in events:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             done = True
+
+        if event.type == CREATE_OBSTACLE_EVENT:
+            obstacles_group.add( BouncingBoulder(scrolling_speed) ) 
 
     # update
     obstacles_group.update(ms)

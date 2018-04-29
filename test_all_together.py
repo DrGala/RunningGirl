@@ -21,13 +21,15 @@ CREATE_OBSTACLE_EVENT = pygame.USEREVENT + 1
 pygame.time.set_timer(CREATE_OBSTACLE_EVENT, 2000)
 
 def create_obstacle(obstacles_group, scrolling_speed):
-    n = random.randrange(1,5)
+    n = random.randrange(1,6)
     if n==1:
         obstacles_group.add( Crate(scrolling_speed) )
     elif n==2:
         obstacles_group.add( FlyingMushroom(scrolling_speed) )
     elif n==3:
         obstacles_group.add( PoisonCloudMushroom(scrolling_speed) )
+    elif n==4:
+        obstacles_group.add( BouncingBoulder(scrolling_speed) )
     else:
         obstacles_group.add( FallingCrate(scrolling_speed) )
         

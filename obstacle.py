@@ -1,5 +1,5 @@
 import pygame
-
+import math
 
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, image_path, scale_factor, scroll_speed):
@@ -69,4 +69,26 @@ class PoisonCloudMushroom(Obstacle):
                 self.rect.move_ip(0,-1)
             
             
-                
+
+class BouncingBoulder(Obstacle):
+    def __init__(self, scrolling_speed):
+        Obstacle.__init__(self, 'img\\Object\\boulder.png', 1, scrolling_speed)
+        self.rect.move_ip(200, 0)
+        self.orig_image = self.image.copy()
+        self.angle = 2
+        self.radius = 40
+        
+    def get_y(self):
+        x = self.rect.center[0]
+        return 300 + math.sin(x/150.0) * 160;
+        
+    def update(self, ms):
+        Obstacle.update(self, ms)
+        center = (self.rect.center[0]-1, self.get_y())
+
+        self.image = pygame.transform.rotate(self.orig_image, self.angle)
+        self.angle = (self.angle + 2) % 360
+
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        
