@@ -33,7 +33,7 @@ while not done:
             done = True
 
         if event.type == CREATE_OBSTACLE_EVENT:
-            obstacles_group.add( BouncingBoulder(scrolling_speed) ) 
+            obstacles_group.add( BouncingBoulder2(scrolling_speed) ) 
 
     # update
     obstacles_group.update(ms)
